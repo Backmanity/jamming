@@ -1,17 +1,29 @@
 import React, { useState } from 'react';
-import SearchResults from '../searchresults/SearchResults';
 
-function SearchBar() {
-    const [searchTerm, setSearchTerm] = useState('');
+function SearchBar( {onSearch} ) {
+    const [inputValue, setInputValue] = useState('');
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        onSearch(inputValue);
+        setInputValue('');
+      };
+
+    const handleChange = (event) => {
+        setInputValue(event.target.value);
+    };
+
     return (
-        <div>
-            <form>
-                <input type='text' value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
-
-                <input type='submit' value='Search music'></input>
-            </form>
-            <SearchResults searchTerm={searchTerm}/>
-        </div>
+        <form onSubmit={handleSubmit}>
+            <label>
+                Search:
+                <input
+                type="text"
+                value={inputValue}
+                onChange={handleChange}
+                />
+            </label>
+            <button type="submit">Submit</button>
+        </form>    
     );
 };
 
